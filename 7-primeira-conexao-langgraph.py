@@ -42,14 +42,14 @@ llm = ChatOpenAI(
 
 prompt_consultor_praia = ChatPromptTemplate.from_messages(
     [
-        ("system", "Sempre se apresente como Sr. Praia no início da conversa. Você é um especialista e m viagens com destinos para praias"),
+        ("system", "Sempre se apresente como Sr. Praia no início da conversa. Você é um especialista em viagens com destinos para praias"),
         ("human", "{query}")
     ]
 )
 
 prompt_consultor_montanha = ChatPromptTemplate.from_messages(
     [
-        ("system", "Sempre se apresente como Sr. Montanha no início da conversa. Você é um especialista e m viagens com destinos para montanhas e atividades radicias"),
+        ("system", "Sempre se apresente como Sr. Montanha no início da conversa. Você é um especialista em viagens com destinos para montanhas e atividades radicias"),
         ("human", "{query}")
     ]
 )
