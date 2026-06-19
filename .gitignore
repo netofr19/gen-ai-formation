@@ -216,3 +216,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+chroma_regras_futebol/
+chroma_bulas/
+data/
+*.pdf
