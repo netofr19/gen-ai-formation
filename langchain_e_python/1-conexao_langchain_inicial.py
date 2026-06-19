@@ -1,8 +1,6 @@
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from dotenv import load_dotenv
-from rich.console import Console
-from rich.markdown import Markdown
 import os
 
 load_dotenv()
@@ -22,9 +20,7 @@ atividade = "praia"
 
 prompt_template = PromptTemplate(
     template="""
-    Crie um roteiro de viagem de {numero_dias} dias, 
-    para uma família com {numero_criancas} crianças, 
-    que gosta de {atividade}
+    Quantas copas do mundo de futebol ganhou a seleção Brasileira? Explique um pouco sobre cada copa do mundo ganha.
     """
 )
 
@@ -38,5 +34,5 @@ print(f"====== PROMPT ======\n{prompt}")
 
 
 response = llm.invoke(prompt)
-console = Console()
-console.print(Markdown(response.content))
+print(f"====== RESPONSE ======")
+print(response.content)
