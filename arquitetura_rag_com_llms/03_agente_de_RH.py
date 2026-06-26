@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 import streamlit as st
 from dotenv import load_dotenv
 
@@ -21,6 +22,19 @@ PERSIST_DIRECTORY = './chroma_rh'
 EMBEDDING_MODEL = 'openai/text-embedding-3-small'
 LLM_MODEL = 'meta-llama/llama-3.1-8b-instruct'
 API_BASE_URL = 'https://openrouter.ai/api/v1'
+
+LOG_DIR = 'logs'
+timestamp_execucao = datetime.now().strftime("%Y%m%d_%H_%M_%S")
+LOG_FILE = os.path.join(LOG_DIR, f"app_{timestamp_execucao}.log")
+
+os.makedirs(LOG_DIR, exist_ok=True)
+
+def log(message, level="INFO"):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    line = f"[{timestamp}] - [{level}] - [{message}]\n"
+
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(line)
 
 
 # LEITURA DE DOCUMENTOS
@@ -252,17 +266,27 @@ def responder_pergunta(pergunta, vectorstore):
 
 st.set_page_config(page_title="CHAT de RH com RAG", layout="wide")
 st.title("Chat de RH - Políticas Internas")
+log("Aplicação iniciada")
 
 pergunta = st.text_input("Digite sua pergunta sobre políticas internas de RH: ")
 
 if pergunta:
+    log(f"Pergunta enviada pelo usuário: {pergunta}")
     with st.spinner("Consultando políticas internas..."):
+        log("Carregamento de documentos")
         documentos = carregar_documentos()
+        log("Geração de Chunks")
         chunks = gerar_chunks(documentos)
+        log("Enriquecimento de chunks")
         chunks = enriquecer_chunks(chunks)
+        log("Criação do vectorstore")
         vectorstore = criar_vectorstore(chunks)
 
+        log("Geração da resposta")
         resposta, fontes = responder_pergunta(pergunta, vectorstore)
+        log(f"Resposta gerada: {resposta}")
+
+        log("Encerramento da conversa")
 
     st.subheader("Resposta")
     st.write(resposta)
@@ -274,6 +298,3 @@ if pergunta:
         st.write(f"Categoria: {doc.metadata.get('categoria')}")
         st.write(doc.page_content)
         st.divider()
-
-
-
