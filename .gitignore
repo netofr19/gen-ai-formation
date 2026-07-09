@@ -220,6 +220,7 @@ __marimo__/
 chroma_regras_futebol/
 chroma_bulas/
 chroma_rh/
+chroma_db/
 data/
 *.pdf
 qdrant_storage/
